@@ -9,12 +9,12 @@ function getVideoURI(base)
 
     var videotag = document.createElement("video");
 
-    if ( videotag.canPlayType )
-    {
-      if (videotag.canPlayType('video/webm; codecs="vp9, opus"') )
-      {
-          extension = '.webm';
-      }
+    if (videotag.canPlayType) {
+        // check for both VP8/Vorbis and VP9/Opus since either means webm is fine
+        if (videotag.canPlayType('video/webm; codecs="vp8, vorbis"') ||
+            videotag.canPlayType('video/webm; codecs="vp9, opus"')) {
+            extension = '.webm';
+        }
     }
 
     return base + extension;
@@ -31,9 +31,8 @@ function getAudioURI(base)
 
     var audiotag = document.createElement("audio");
 
-    if ( audiotag.canPlayType &&
-         audiotag.canPlayType('audio/ogg') )
-    {
+    if (audiotag.canPlayType &&
+        audiotag.canPlayType('audio/ogg; codecs="vorbis"')) {
         extension = '.oga';
     }
 
